@@ -1,0 +1,22 @@
+@font-face {
+  font-family: "OCR-A";
+  src: url("./assets/fonts/OCR-A_Regular.ttf");
+}
+@font-face {
+  font-family: "W95FA";
+  font-weight: 400;
+  src: url("./assets/fonts/w95fa.woff");
+}
+:root {
+  --blue: rgba(0, 0, 255, 0.6);
+  --text: rgba(255, 255, 255, 0.75);
+  --btn-hover-border: rgb(0, 255, 255);
+}
+* {
+  margin: 0;
+  padding: 0;
+  color: var(--text);
+  font-family: "W95FA";
+  font-size: 11px;
+  letter-spacing: 0.75px;
+}
