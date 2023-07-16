@@ -19,9 +19,6 @@
   padding: 2px;
   border-bottom: 1px solid blue;
 }
-#console > .status p {
-  display: inline;
-}
 #prompt {
   border: none;
   outline: none;
