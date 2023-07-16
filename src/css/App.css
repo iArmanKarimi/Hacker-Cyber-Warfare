@@ -1,0 +1,31 @@
+body {
+  background: #000;
+  width: 100vw;
+  height: 100vh;
+}
+p,
+div {
+  user-select: none;
+}
+.font-OCR-A {
+  font-size: 10px;
+  font-family: "OCR-A";
+}
+.title-label {
+  background: var(--blue);
+  border: 1px solid var(--blue);
+}
+#game {
+  margin: 8px;
+  padding: 4px;
+  display: inline-grid;
+  gap: 7px;
+  grid-template-columns: 450px 135px;
+  grid-template-rows: 10px 450px;
+  border: 1px solid var(--blue);
+  /* center */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
