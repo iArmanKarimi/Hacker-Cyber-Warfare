@@ -1,0 +1,29 @@
+#console-header {
+  padding: 2px;
+  /* to fix: download lighter font version */
+  font-weight: 100;
+  grid-row: 1;
+  grid-column: 1;
+  display: block;
+  background: var(--blue);
+  height: 10px;
+  border: 1px solid blue;
+}
+#console {
+  padding: 2px;
+  grid-row: 2;
+  grid-column: 1;
+  border: 1px solid var(--blue);
+}
+#console > .status {
+  padding: 2px;
+  border-bottom: 1px solid blue;
+}
+#console > .status p {
+  display: inline;
+}
+#prompt {
+  border: none;
+  outline: none;
+  background: transparent;
+}
