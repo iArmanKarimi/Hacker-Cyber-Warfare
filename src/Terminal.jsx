@@ -1,6 +1,8 @@
 import "./css/Terminal.css";
 import { Component } from "react";
-import StatusBar from "./Component/StatusBar";
+import PromptLine from "./Component/PromptLine";
+import TerminalOutput from "./Component/TerminalOutput";
+import ConnectionStatusBar from "./Component/ConnectionStatusBar";
 
 export default class Terminal extends Component {
   render() {
@@ -8,13 +10,10 @@ export default class Terminal extends Component {
       <>
         <div id="console-header">Konsole v1.0</div>
         <div id="console">
-          <StatusBar />
+          <ConnectionStatusBar />
           <div id="interface">
-            {/* <TerminalOutput /> */}
-            <div id="prompt-line">
-              <span id="prompt-dir">Login:</span>
-              <input type="text" id="prompt" autoFocus />
-            </div>
+            <TerminalOutput />
+            <PromptLine />
           </div>
         </div>
       </>
