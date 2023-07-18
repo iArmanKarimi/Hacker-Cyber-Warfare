@@ -15,10 +15,6 @@
   grid-column: 1;
   border: 1px solid var(--blue);
 }
-#console > .status {
-  padding: 2px;
-  border-bottom: 1px solid blue;
-}
 #prompt {
   border: none;
   outline: none;
