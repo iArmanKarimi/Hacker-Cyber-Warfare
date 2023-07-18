@@ -10,8 +10,9 @@ export default class Terminal extends Component {
         <div id="console">
           <StatusBar />
           <div id="interface">
+            {/* <TerminalOutput /> */}
             <div id="prompt-line">
-              <p id="prompt-dir"></p>
+              <span id="prompt-dir">Login:</span>
               <input type="text" id="prompt" autoFocus />
             </div>
           </div>
