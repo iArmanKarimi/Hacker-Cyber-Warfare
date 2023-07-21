@@ -1,0 +1,13 @@
+[
+    {
+        "host": "localhost",
+        "IP": "127.0.0.1",
+        "port": "69", 
+        "port_name": "TFTP"
+    },
+    {
+        "host": "www.microsoft.com",
+        "IP": "",
+        "port": ""
+    }
+]

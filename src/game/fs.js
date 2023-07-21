@@ -1,28 +1,44 @@
-const userIP = '192.168.0.1'
-
-// A function to generate random logs
-const generateLogs = (n = 8) => {
-    const randomIP = () =>
-        Array
+// I have successfully created the directory tree object
+// now that we have the tree, we are going to use it.
+// ls shows in 3xN grid
+/* Problem: ls command
+this command shows folders/files of current dir.
+the current directory/path must be stored in something.
+the path is stored in a string or array: 
+```
+path = "/dev/tty"
+or
+path = ["dev", "tty"]
+```
+*/
+/** solution:
+ * loop.
+ */
+//-------------------------------------//
+const myIP = '192.168.0.1'
+class Random {
+    static IP() {
+        return Array
             .from({ length: 4 }, () => Math.floor(Math.random() * 255) + 1)
             .join(".");
+    }
 
-    const randomUsername = () => {
-        const users = ["root", "guest", "user", "admin"];
+    static username() {
+        let users = ["root", "guest", "user", "admin"];
         return users[Math.floor(Math.random() * users.length)];
-    };
+    }
 
-    const formatLogFile = () => [`${randomIP()}.log`, randomUsername()]
+    static logs(n = 8) {
+        const formatLogFile = () =>
+            [`${this.IP()}.log`, this.username()];
 
-    return Array
-        .from({ length: n }, formatLogFile)
-        .push([userIP + '.log', 'root']);
+        return Array
+            .from({ length: n }, () => formatLogFile())
+            .concat([[`${this.IP()}.log`, 'root']]);
+    }
 }
-
-// no need for nested folders solution. game has 1 lvl deep folder.
-// ls shows in 3xN grid
-// add '..' element to [0] of files array
-const dirs = {
+// later todo: add '..' element to [0] of files array for `cd..`
+const dir_tree = {
     localhost: {
         files: ['bash', '.bashrc', '.profile', 'cat', '.catrc', 'passwd'],
     },
@@ -46,7 +62,7 @@ const dirs = {
                 ]
             },
             logs: {
-                files: generateLogs()
+                files: Random.logs()
             }
         }
         ,
@@ -56,39 +72,30 @@ const dirs = {
         ],
     },
 }
-
-const root = dirs.localhost
-let path_addr = root;
-// in '/' dir. cd to 'home'
-let cd_to = 'home'
-function isFolder(path, folder_name) { }
-// if (isFolder('', ''))
-let cd_folder
-cd_folder = path_addr.folders.find(folder => folder.name === cd_to)
-
-
-/* problem: I need a directory structure to store
-files and folders in memory.
-The structure of the object must permit us to
-easily go through it and manipulate data inside.
-*/
-/* solution: we have two types of items in path:
-files and folders. we need to be able to distinguish
-between the two.
-
-{ // root
-    files: [...],
-    folders: {
-        home: {
-            files: [...],
-            folders: {
-                list_of_ips: {...},
-                other_home_folder: {...}
-            }
-        },
-        desktop: {...},
+// @loop: trying to make a loop for later (i'm struggling with `cd..`)
+for (const key in dir_tree) {
+    console.log(key);
+    const value = dir_tree[key]
+    if (value.files) {
+        // @loop files
+        for (const files of value.files) {
+            // ...
+        }
+    }
+    if (value.folders) {
+        // @loop folders
+        for (const foldersKey in value.folders) {
+            const folders = value.folders[foldersKey]
+            // recurse()
+        }
     }
 }
- */
 
-// > generate loop by ai
+class GameFileSystem {
+    host_name = 'localhost'
+    root_dir = dir_tree[this.host_name]
+
+    setHost = (host_name) => this.host_name = host_name
+}
+
+export default GameFileSystem;
