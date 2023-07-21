@@ -36,33 +36,63 @@ let directories = {
 }
 // final solution: storing all path objects individually. then push current dir obj to it.
 let host_name = 'localhost'
+let path_arr = [] // it doesn't include '/'
 const path_objects = []
+const get_current_dir = () => path_objects[path_objects.length - 1]
 
-function connect(server) {
+// actually, IP is used to connect. 
+// this is a simple function to show that:
+// root dir obj is appended to path objects upon connection to host.
+function connect(host_name) {
     // functionality to connect here..
-    console.log('connected to', host_name)
     path_objects.push(directories[host_name])
-    return true; // if connected
+    // assuming IP and port were correct and host exists,
+    // ping is fine, passwd was correct, etc.
+    return true;
 }
-function cd(folder_name) {
-    
+function change_dir(folder_name) {
+    let folders = get_current_dir().folders
+    path_objects.push(folders[folder_name])
+    path_arr.push(folder_name)
+    return true; // if folder exists
 }
-function ls() {
 
+function change_dir_up() {
+    if (path_arr.length > 0) {
+        path_arr.pop();
+        path_objects.pop();
+        return true;
+    } else {
+        console.log("Cannot go up from root directory.");
+        return false;
+    }
 }
+
 let is_connected = connect(host_name)
-cd('home')
-cd('movies')
-ls()
-console.log(path_objects)
+
+const format_path = () => `/${path_arr.join('/')}`
+let cd_out = ''
+console.log(format_path());
+cd_out = change_dir('main')
+console.log(format_path());
+cd_out = change_dir('movies')
+// change_dir_up()
+console.log(format_path());
+cd_out = change_dir_up()
+console.log(format_path());
+cd_out = change_dir_up()
+console.log(format_path());
+
+cd_out = change_dir_up()
+console.log('cd.. for root output:', cd_out);
 
 // What was the point in the above code?
 // theory of nested object's this reference
-let this_theory = {
-    nested: {
-        self() { return this },
-        files: [1, 2, 3]
-    },
-    self() { return this },
-}
-console.log(this_theory.nested.self())
+// let this_theory = {
+//     nested: {
+//         self() { return this },
+//         files: [1, 2, 3]
+//     },
+//     self() { return this },
+// }
+// console.log(this_theory.nested.self())
