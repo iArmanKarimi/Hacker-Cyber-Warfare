@@ -76,7 +76,6 @@ console.log(format_path());
 cd_out = change_dir('main')
 console.log(format_path());
 cd_out = change_dir('movies')
-// change_dir_up()
 console.log(format_path());
 cd_out = change_dir_up()
 console.log(format_path());
