@@ -68,6 +68,13 @@ function change_dir_up() {
     }
 }
 
+function list_dir() {
+    const current_dir = get_current_dir()
+    const files = current_dir.files;
+    const folders = Object.keys(current_dir.folders)
+    return { files: files, folders: folders }
+}
+
 let is_connected = connect(host_name)
 
 const format_path = () => `/${path_arr.join('/')}`
@@ -84,6 +91,8 @@ console.log(format_path());
 
 cd_out = change_dir_up()
 console.log('cd.. for root output:', cd_out);
+
+console.log(list_dir());
 
 // What was the point in the above code?
 // theory of nested object's this reference
