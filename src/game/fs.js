@@ -14,29 +14,11 @@ path = ["dev", "tty"]
 /** solution:
  * loop.
  */
+
+import { Random } from "./Random";
+
 //-------------------------------------//
 const myIP = "192.168.0.1";
-class Random {
-  static IP() {
-    return Array.from(
-      { length: 4 },
-      () => Math.floor(Math.random() * 255) + 1
-    ).join(".");
-  }
-
-  static username() {
-    let users = ["root", "guest", "user", "admin"];
-    return users[Math.floor(Math.random() * users.length)];
-  }
-
-  static logs(n = 8) {
-    const formatLogFile = () => [`${this.IP()}.log`, this.username()];
-
-    return Array.from({ length: n }, () => formatLogFile()).concat([
-      [`${this.IP()}.log`, "root"],
-    ]);
-  }
-}
 // later todo: add '..' element to [0] of files array for `cd..`
 const dir_tree = {
   localhost: {
