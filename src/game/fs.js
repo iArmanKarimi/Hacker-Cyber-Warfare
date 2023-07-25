@@ -160,6 +160,9 @@ class FileSystem {
     const { files, folders } = this.get_current_dir();
     return { files, folders: Object.keys(folders) };
   }
+
+  remove_file() {}
+  
 }
 
 export default FileSystem;
