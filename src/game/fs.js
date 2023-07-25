@@ -1,24 +1,7 @@
-// I have successfully created the directory tree object
-// now that we have the tree, we are going to use it.
-// ls shows in 3xN grid
-/* Problem: ls command
-this command shows folders/files of current dir.
-the current directory/path must be stored in something.
-the path is stored in a string or array: 
-```
-path = "/dev/tty"
-or
-path = ["dev", "tty"]
-```
-*/
-/** solution:
- * loop.
- */
-
 import Random from "./Random.js";
 
-//-------------------------------------//
 const myIP = "192.168.0.1";
+
 // later todo: add '..' element to [0] of files array for `cd..`
 const dir_tree = {
   localhost: {
@@ -162,7 +145,7 @@ class FileSystem {
   }
 
   remove_file() {}
-  
+
 }
 
 export default FileSystem;
