@@ -1,16 +1,16 @@
 export default class Apps {
-  // check server up
-  Ping() {}
-  // open ports
-  Nmap() {}
   // host to IP
-  DNS() {}
+  DNS(host_name) {}
+  // check server up
+  Ping(IP) {}
+  // open ports
+  Nmap(IP) {}
+  // connect to server
+  Telnet(IP) {}
   // del file
-  Delete() {}
+  Delete(file_name) {}
   // copy file
-  Copy() {}
+  Copy(file_name) {}
   // Virus Creation Kit
   VCK() {}
-  // connect to server
-  Telnet() {}
 }
