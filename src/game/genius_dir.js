@@ -101,7 +101,7 @@ function change_dir(folder_name) {
   path_arr.push(folder_name);
   return true; // if folder exists
 }
-
+ 
 function change_dir_up() {
   if (path_arr.length > 0) {
     path_arr.pop();

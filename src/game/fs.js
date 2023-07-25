@@ -99,24 +99,6 @@ const dir_tree = {
     ],
   },
 };
-// @loop: trying to make a loop for later (i'm struggling with `cd..`)
-for (const key in dir_tree) {
-  console.log(key);
-  const value = dir_tree[key];
-  if (value.files) {
-    // @loop files
-    for (const files of value.files) {
-      // ...
-    }
-  }
-  if (value.folders) {
-    // @loop folders
-    for (const foldersKey in value.folders) {
-      const folders = value.folders[foldersKey];
-      // recurse()
-    }
-  }
-}
 
 class GameFileSystem {
   host_name = "localhost";
