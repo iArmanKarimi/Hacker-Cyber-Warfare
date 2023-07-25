@@ -111,7 +111,12 @@ class FileSystem {
   }
 
   set_host(host_name) {
-    this.host_name = host_name;
+    if (host_name in dir_tree) {
+      this.reset_path()
+      this.host_name = host_name
+      return true;
+    }
+    return false;
   }
 
   get_current_dir() {
@@ -124,13 +129,13 @@ class FileSystem {
 
   // set path to '/'
   reset_path() {
-    this.path_arr = []
+    this.path_arr = [];
     this.path_objects = [this.root_dir];
   }
 
   change_dir(folder_name) {
     const current_dir = this.get_current_dir();
-    if (current_dir.folders && current_dir.folders[folder_name]) {
+    if ("folders" in current_dir && folder_name in current_dir.folders) {
       this.path_objects.push(current_dir.folders[folder_name]);
       this.path_arr.push(folder_name);
       return true;
@@ -156,5 +161,8 @@ class FileSystem {
 export default FileSystem;
 
 const fs = new FileSystem();
-let did_cd = fs.change_dir("invalid folder");
-console.log("did cd:", did_cd);
+fs.set_host("www.microsoft.com");
+
+console.log("cd:", fs.change_dir("invalid folder"));
+console.log(fs.format_path());
+console.log("cd:", fs.change_dir("home"));
