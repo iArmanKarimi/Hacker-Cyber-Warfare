@@ -163,13 +163,3 @@ class FileSystem {
 }
 
 export default FileSystem;
-
-const fs = new FileSystem();
-
-console.log("change server", fs.set_host("www.microsoft.com"));
-console.log(fs.path_objects);
-
-// console.log("cd to main:", fs.change_dir("main"));
-// console.log(fs.format_path());
-// console.log("current dir:", fs.get_current_dir());
-// console.log(fs.format_path());
