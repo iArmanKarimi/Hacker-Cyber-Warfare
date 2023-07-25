@@ -103,8 +103,37 @@ const dir_tree = {
 class GameFileSystem {
   host_name = "localhost";
   root_dir = dir_tree[this.host_name];
+  path_arr = []; // doesn't include '/'
+  path_objects = [];
 
+  format_path = () => `/${this.path_arr.join("/")}`;
   setHost = (host_name) => (this.host_name = host_name);
+  get_current_dir = () => this.path_objects[this.path_objects.length - 1];
+
+  change_dir(folder_name) {
+    let folders = this.get_current_dir().folders;
+    this.path_objects.push(folders[folder_name]);
+    this.path_arr.push(folder_name);
+    return true; // if folder exists
+  }
+
+  change_dir_up() {
+    if (this.path_arr.length > 0) {
+      this.path_arr.pop();
+      this.path_objects.pop();
+      return true;
+    } else {
+      // Cannot go up from root directory
+      return false;
+    }
+  }
+
+  list_dir() {
+    const current_dir = this.get_current_dir();
+    const files = current_dir.files;
+    const folders = Object.keys(current_dir.folders);
+    return { files: files, folders: folders };
+  }
 }
 
 export default GameFileSystem;
