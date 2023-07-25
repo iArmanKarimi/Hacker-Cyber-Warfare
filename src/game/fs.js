@@ -102,7 +102,6 @@ const dir_tree = {
 
 class FileSystem {
   host_name = "localhost";
-  root_dir = () => dir_tree[this.host_name];
   path_arr = [];
   path_objects = [];
 
@@ -110,10 +109,14 @@ class FileSystem {
     this.reset_path();
   }
 
+  get_root_dir() {
+    return dir_tree[this.host_name];
+  }
+
   set_host(host_name) {
     if (host_name in dir_tree) {
-      this.reset_path();
       this.host_name = host_name;
+      this.reset_path();
       return true;
     }
     return false;
@@ -130,16 +133,17 @@ class FileSystem {
   // set path to '/'
   reset_path() {
     this.path_arr = [];
-    this.path_objects = [this.root_dir()];
+    this.path_objects = [this.get_root_dir()];
   }
 
   change_dir(folder_name) {
     const current_dir = this.get_current_dir();
-    if ("folders" in current_dir && folder_name in current_dir.folders) {
+    if (current_dir.folders && folder_name in current_dir.folders) {
       this.path_objects.push(current_dir.folders[folder_name]);
       this.path_arr.push(folder_name);
       return true;
     }
+    console.log(this.path_objects);
     return false;
   }
 
@@ -163,7 +167,9 @@ export default FileSystem;
 const fs = new FileSystem();
 
 console.log("change server", fs.set_host("www.microsoft.com"));
+console.log(fs.path_objects);
 
-console.log(":", fs.change_dir("main"));
-console.log(fs.format_path());
-console.log(":", fs.get_current_dir());
+// console.log("cd to main:", fs.change_dir("main"));
+// console.log(fs.format_path());
+// console.log("current dir:", fs.get_current_dir());
+// console.log(fs.format_path());
