@@ -15,7 +15,7 @@ path = ["dev", "tty"]
  * loop.
  */
 
-import { Random } from "./Random";
+import Random from "./Random.js";
 
 //-------------------------------------//
 const myIP = "192.168.0.1";
@@ -100,21 +100,42 @@ const dir_tree = {
   },
 };
 
-class GameFileSystem {
+class FileSystem {
   host_name = "localhost";
   root_dir = dir_tree[this.host_name];
-  path_arr = []; // doesn't include '/'
+  path_arr = [];
   path_objects = [];
 
-  format_path = () => `/${this.path_arr.join("/")}`;
-  setHost = (host_name) => (this.host_name = host_name);
-  get_current_dir = () => this.path_objects[this.path_objects.length - 1];
+  constructor() {
+    this.reset_path();
+  }
+
+  set_host(host_name) {
+    this.host_name = host_name;
+  }
+
+  get_current_dir() {
+    return this.path_objects[this.path_objects.length - 1];
+  }
+
+  format_path() {
+    return `/${this.path_arr.join("/")}`;
+  }
+
+  // set path to '/'
+  reset_path() {
+    this.path_arr = []
+    this.path_objects = [this.root_dir];
+  }
 
   change_dir(folder_name) {
-    let folders = this.get_current_dir().folders;
-    this.path_objects.push(folders[folder_name]);
-    this.path_arr.push(folder_name);
-    return true; // if folder exists
+    const current_dir = this.get_current_dir();
+    if (current_dir.folders && current_dir.folders[folder_name]) {
+      this.path_objects.push(current_dir.folders[folder_name]);
+      this.path_arr.push(folder_name);
+      return true;
+    }
+    return false;
   }
 
   change_dir_up() {
@@ -122,18 +143,18 @@ class GameFileSystem {
       this.path_arr.pop();
       this.path_objects.pop();
       return true;
-    } else {
-      // Cannot go up from root directory
-      return false;
     }
+    return false;
   }
 
   list_dir() {
-    const current_dir = this.get_current_dir();
-    const files = current_dir.files;
-    const folders = Object.keys(current_dir.folders);
-    return { files: files, folders: folders };
+    const { files, folders } = this.get_current_dir();
+    return { files, folders: Object.keys(folders) };
   }
 }
 
-export default GameFileSystem;
+export default FileSystem;
+
+const fs = new FileSystem();
+let did_cd = fs.change_dir("invalid folder");
+console.log("did cd:", did_cd);
