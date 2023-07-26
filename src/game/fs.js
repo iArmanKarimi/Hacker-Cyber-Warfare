@@ -1,4 +1,5 @@
 import Random from "./Random.js";
+import { onRemove } from "./Mission";
 
 // later todo: add '..' element to [0] of files array for `cd..`
 const dir_tree = {
@@ -149,6 +150,8 @@ class FileSystem {
         const i = current_dir.files.indexOf(file_name);
         if (i > -1) {
           current_dir.files.splice(i, 1);
+          // mission event
+          onRemove(file_name);
           return true;
         }
       }

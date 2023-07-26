@@ -1,4 +1,4 @@
-export default [
+export const mission_details = [
   {
     target: "Microsoft Network",
     host: "www.microsoft.com",
@@ -72,3 +72,67 @@ export default [
       "You need to hack into ebay. Someone has hacked into ebay and changed a lot of prices. We are not sure which prices have been changed. Give em a virus in the DATA directory so they will have to add all the prices again.",
   },
 ];
+
+export const Missions = {
+  1: {
+    done: false,
+  },
+  2: {
+    objectives: {
+      file_to_delete: "acct:57065",
+    },
+    done: false,
+  },
+  3: {
+    objectives: {
+      file_to_delete: "sct:a121",
+    },
+    done: false,
+  },
+  4: {
+    done: false,
+  },
+  5: {
+    done: false,
+  },
+  6: {
+    objectives: {
+      file_to_delete: "file012",
+    },
+    done: false,
+  },
+  7: {
+    done: false,
+  },
+  8: {
+    done: false,
+  },
+  9: {
+    objectives: {
+      file_to_delete: "vi146",
+    },
+    done: false,
+  },
+  10: {
+    done: false,
+  },
+  11: {
+    objectives: {
+      file_to_delete: "delete_me.doc",
+    },
+    done: false,
+  },
+  12: {
+    done: false,
+  },
+};
+export function onRemove(file_name) {
+  // missions that require file removal
+  const missions_with_del = [2, 3, 6, 9, 11];
+  for (const mission_num of missions_with_del) {
+    const mission = Missions[mission_num];
+    if (mission.objectives.file_to_delete === file_name) {
+      mission.done = true;
+    }
+  }
+}
