@@ -69,18 +69,18 @@ function list_directory() {
 // Test remove file
 function remove_file() {
   const files = fs.get_current_dir().files;
-  const initial_files_length = files.length;
+  const initialFilesLength = files.length;
 
   // Remove the file and check if it returns true
-  const isFileRemoved = fs.remove_file(".temp") === true;
+  const isFileRemoved = fs.remove_file(".temp");
 
   // Check if the number of files in the directory has decreased by 1
-  const isFileCountDecreased = files.length === initial_files_length - 1;
+  const isFileCountDecreased = files.length === initialFilesLength - 1;
 
   // Log the results of the test
-  console.log("[Test remove file]");
-  console.log(`- Deleting file '.temp': ${isFileRemoved ? "PASS" : "FAIL"}`);
-  console.log(`- Deletion was ok: ${isFileCountDecreased ? "PASS" : "FAIL"}`);
+  console.log(
+    `[${isFileCountDecreased && isFileRemoved ? "PASS" : "FAIL"}] Delete file`
+  );
 }
 
 // Run tests
