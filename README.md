@@ -2,8 +2,8 @@
 
 Web edition of Hacker game made in 2003 for desktop platforms.
 
-some additional features to the original game:
+Some **additional** features:
 
-+ lag fixes
-+ specific ports for each server
-+ clear, help commands
++ better performance
++ ports are not random but unique
++ IPs are updated and real
