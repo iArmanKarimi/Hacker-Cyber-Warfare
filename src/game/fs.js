@@ -1,7 +1,5 @@
 import Random from "./Random.js";
 
-const myIP = "192.168.0.1";
-
 // later todo: add '..' element to [0] of files array for `cd..`
 const dir_tree = {
   localhost: {
@@ -144,8 +142,19 @@ class FileSystem {
     return { files, folders: Object.keys(folders) };
   }
 
-  remove_file() {}
-
+  remove_file(file_name) {
+    const current_dir = this.get_current_dir();
+    if (current_dir.files) {
+      if (current_dir.files.includes(file_name)) {
+        const i = current_dir.files.indexOf(file_name);
+        if (i > -1) {
+          current_dir.files.splice(i, 1);
+          return true;
+        }
+      }
+    }
+    return false;
+  }
 }
 
 export default FileSystem;
