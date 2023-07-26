@@ -9,21 +9,22 @@ export default class Apps {
     const server = servers.find((server) => server.host === host_name);
     return server?.IP;
   }
-  
+
   /** check if server is up
    * @returns {boolean} is server up
    */
   static Ping() {
     return Random.Boolean();
   }
-  
+
   /** check open ports
    * @param {string} IP
-   * @returns {{port: number, port_name: string}} port object
+   * @returns {{port: number, port_name: string}|undefined} port object
    */
   static Nmap(IP) {
-    const { port, port_name } = servers.find((server) => server.IP === IP);
-    return { port, port_name };
+    const server = servers.find((server) => server.IP === IP);
+    if (!server) return undefined;
+    return { port: server.port, port_name: server.port_name };
   }
 
   /** connect to server.
@@ -37,7 +38,7 @@ export default class Apps {
     const server = servers.find((server) => server.IP === IP);
     return server.password === password;
   }
-  
+
   // check IP port before asking password
   static TelnetOpen(IP, port) {
     const server = servers.find((server) => server.IP === IP);
