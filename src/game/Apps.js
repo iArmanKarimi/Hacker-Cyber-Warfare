@@ -1,6 +1,10 @@
+import servers from "./servers";
 export default class Apps {
   // host to IP
-  DNS(host_name) {}
+  DNS(host_name) {
+    const { IP } = servers.find((server) => server.host === host_name);
+    return IP;
+  }
   // check server up
   Ping(IP) {}
   // open ports
