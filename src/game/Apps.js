@@ -1,5 +1,11 @@
 import servers from "./servers.js";
 import Random from "./Random.js";
+export const appsUImeta = {
+  Ping: {
+    prompt: 'Ping>',
+    message: "Enter IP...",
+  },
+}
 export default class Apps {
   /** host to IP
    * @param {string} host_name
