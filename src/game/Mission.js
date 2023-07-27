@@ -132,7 +132,9 @@ export function onRemove(file_name) {
   for (const mission_num of missions_with_del) {
     const mission = Missions[mission_num];
     if (mission.objectives.file_to_delete === file_name) {
-      mission.done = true;
+      // for some missions there are multiple objectives 
+      // hence merely a file removal doesn't finish the mission.
+      mission.done = true; 
     }
   }
 }
