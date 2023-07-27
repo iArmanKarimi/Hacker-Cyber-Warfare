@@ -1,6 +1,4 @@
-import FileSystem from "./fs.js";
-
-const fs = new FileSystem();
+import fs from "./fs.js";
 
 // Test set host
 function set_host() {

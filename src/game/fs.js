@@ -1,5 +1,5 @@
 import Random from "./Random.js";
-import { onRemove } from "./Mission";
+import { onRemove } from "./Mission.js";
 
 // later todo: add '..' element to [0] of files array for `cd..`
 const dir_tree = {
@@ -83,68 +83,63 @@ const dir_tree = {
 };
 
 class FileSystem {
-  host_name = "localhost";
-  path_arr = [];
-  path_objects = [];
+  static host_name = "localhost";
+  static path_arr = [];
+  static path_objects = [];
 
-  constructor() {
-    this.reset_path();
+  static reset_path() {
+    FileSystem.path_arr = [];
+    FileSystem.path_objects = [FileSystem.get_root_dir()];
   }
 
-  get_root_dir() {
-    return dir_tree[this.host_name];
+  static get_root_dir() {
+    return dir_tree[FileSystem.host_name];
   }
 
-  set_host(host_name) {
+  static set_host(host_name) {
     if (host_name in dir_tree) {
-      this.host_name = host_name;
-      this.reset_path();
+      FileSystem.host_name = host_name;
+      FileSystem.reset_path();
       return true;
     }
     return false;
   }
 
-  get_current_dir() {
-    return this.path_objects[this.path_objects.length - 1];
+  static get_current_dir() {
+    return FileSystem.path_objects[FileSystem.path_objects.length - 1];
   }
 
-  format_path() {
-    return `/${this.path_arr.join("/")}`;
+  static format_path() {
+    return `/${FileSystem.path_arr.join("/")}`;
   }
 
-  // set path to '/'
-  reset_path() {
-    this.path_arr = [];
-    this.path_objects = [this.get_root_dir()];
-  }
-
-  change_dir(folder_name) {
-    const current_dir = this.get_current_dir();
+  static change_dir(folder_name) {
+    const current_dir = FileSystem.get_current_dir();
     if (current_dir.folders && folder_name in current_dir.folders) {
-      this.path_objects.push(current_dir.folders[folder_name]);
-      this.path_arr.push(folder_name);
+      FileSystem.path_objects.push(current_dir.folders[folder_name]);
+      FileSystem.path_arr.push(folder_name);
       return true;
     }
-    console.log(this.path_objects);
+    console.log(FileSystem.path_objects);
     return false;
   }
 
-  change_dir_up() {
-    if (this.path_arr.length > 0) {
-      this.path_arr.pop();
-      this.path_objects.pop();
+  static change_dir_up() {
+    if (FileSystem.path_arr.length > 0) {
+      FileSystem.path_arr.pop();
+      FileSystem.path_objects.pop();
       return true;
     }
     return false;
   }
 
-  list_dir() {
-    const { files, folders } = this.get_current_dir();
+  static list_dir() {
+    const { files, folders } = FileSystem.get_current_dir();
     return { files, folders: Object.keys(folders) };
   }
 
-  remove_file(file_name) {
-    const current_dir = this.get_current_dir();
+  static remove_file(file_name) {
+    const current_dir = FileSystem.get_current_dir();
     if (current_dir.files) {
       if (current_dir.files.includes(file_name)) {
         const i = current_dir.files.indexOf(file_name);
@@ -159,5 +154,4 @@ class FileSystem {
     return false;
   }
 }
-
 export default FileSystem;
