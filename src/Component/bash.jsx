@@ -2,7 +2,25 @@ import fs from "../game/fs";
 import Help from "./Help";
 import DirList from "./DirList";
 import * as util from "../game/util";
+import { appNames } from "./run";
 
+// shows usage for running apps from terminal
+const appHelp = [
+    ['dns', 'get IP of host'],
+    ['ping', 'checks if server is up.'],
+    ['nmap', 'search for open ports'],
+    ['telnet', 'connect to server. usage: telnet <IP> <port>'],
+    ['vck', 'virus creation kit'],
+    ['copy', 'copy a file. usage: copy <file_name>'],
+    ['john', 'password cracker. usage: john <IP> <port>']
+]
+const cmdHelp = [
+    ["ls", "list directories"],
+    ["cd", "change directory"],
+    ["cd..", "change working directory to the parent directory"],
+    ["del", "delete file"],
+    ["help", "display commands and a brief description of them"],
+];
 export default function bash(commandInput) {
     const { command, arg } = util.parseCommand(commandInput);
 
@@ -43,15 +61,19 @@ export default function bash(commandInput) {
             return { clearOutput: true };
         }
         case "help": {
-            const helpCommands = [
-                ["ls", "list directories"],
-                ["cd", "change directory"],
-                ["cd..", "change working directory to the parent directory"],
-                ["del", "delete file"],
-                ["help", "display commands and a brief description of them"],
-            ];
+
+            const cmdHelpJSX = <>
+                <Help commands={cmdHelp} />
+                <br />
+                <i>* To see help for apps, type: help --app</i>
+            </>
+            const appHelpJSX = <>
+                <Help commands={appHelp} />
+            </>
             return {
-                output: <Help commands={helpCommands} />,
+                output: (arg === '--app' || arg === '-app')
+                    ? appHelpJSX
+                    : cmdHelpJSX,
             };
         }
         default: {
