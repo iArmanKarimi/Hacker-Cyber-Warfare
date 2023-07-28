@@ -1,5 +1,6 @@
 import "./css/Terminal.css";
 import { useState } from "react";
+import PopupWindow from "./PopupWindow";
 import PromptLine from "./Component/PromptLine";
 import TerminalInterface from "./Component/TerminalInterface";
 import ConnectionStatusBar from "./Component/ConnectionStatusBar";
@@ -17,6 +18,7 @@ function Terminal() {
       <div id="console">
         <ConnectionStatusBar />
         <div id="interface">
+          <PopupWindow />
           <TerminalInterface outputs={outputs} />
           <PromptLine clearOutput={clearOutput} appendOutput={appendOutput} />
         </div>
