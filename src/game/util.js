@@ -8,9 +8,13 @@ export function parseCommand(input) {
   return { command, arg };
 }
 
+/**
+ * @param {string} input
+ * @returns {{command: string, args: string[]}} 
+ */
 export function parseCommandMultiArg(input) {
   const inputArray = input.trim().split(/\s+/);
   const command = inputArray.shift();
-  const arg = inputArray;
-  return { command, arg };
+  const args = inputArray;
+  return { command, args };
 }
