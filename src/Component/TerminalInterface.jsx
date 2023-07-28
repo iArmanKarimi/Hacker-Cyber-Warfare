@@ -3,11 +3,14 @@ import PropTypes from "prop-types";
 
 function TerminalInterface(props) {
   return (
-    <div>
-      {props.outputs.map((output, index) => (
-        <div key={index}>{output}</div>
-      ))}
-    </div>
+    <>
+      <div>
+        {props.outputs.map((output, index) => (
+          <div key={index}>{output}</div>
+        ))}
+      </div>
+      <br />
+    </>
   );
 }
 
