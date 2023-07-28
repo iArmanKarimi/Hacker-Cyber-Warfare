@@ -2,6 +2,8 @@ import "./css/PromptLine.css";
 import { useState } from "react";
 import PropTypes from "prop-types";
 import bash from "./bash";
+import { appsUImeta } from "../game/Apps";
+import { appMessages } from "./run";
 
 function PromptLine({ clearOutput, appendOutput }) {
   const [promptInput, setPromptInput] = useState("");
@@ -11,12 +13,16 @@ function PromptLine({ clearOutput, appendOutput }) {
 
   function handleCommandEnter(e) {
     if (e.key === "Enter") {
-      // FIXME what to do when telnet connects to server?
-      // implement it here.
-      if (promptInput in appsUImeta) {
-        const appMeta = appsUImeta[promptInput];
-        setPromptInput(appMeta.prompt);
+      // get arg for apps that require it
+      if (promptInput in appMessages) {
+        const appName = promptInput
+        const appMessage = appMessages[promptInput];
+        setPromptLabel(`${appName.toUpperCase()}>`);
         appendOutput(appMeta.message);
+      }
+      // run app
+      if (promptInput in apps) {
+        // TODO
       }
       else {
         const result = bash(promptInput);
