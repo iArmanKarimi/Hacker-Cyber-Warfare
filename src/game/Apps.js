@@ -1,5 +1,6 @@
-import servers from "./servers.js";
 import Random from "./Random.js";
+import servers from "./servers.js";
+import fs from "./fs";
 
 export default class Apps {
   /** host to IP
@@ -12,15 +13,19 @@ export default class Apps {
   }
 
   /** check if server is up
-   * @returns {boolean} is server up
+   * @param {string} IP
+   * @returns {{ validIP: boolean, status: boolean}} is server up
    */
-  static Ping() {
-    return Random.Boolean();
+  static Ping(IP) {
+    return {
+      status: Random.Boolean(),
+      validIP: servers.some((server) => server.IP === IP),
+    };
   }
 
   /** check open ports
    * @param {string} IP
-   * @returns {{port: number, port_name: string}|undefined} port object
+   * @returns {{port: number, port_name: string}} port object
    */
   static Nmap(IP) {
     const server = servers.find((server) => server.IP === IP);
@@ -29,19 +34,21 @@ export default class Apps {
   }
 
   /** connect to server.
-   * check ip/port with TelnetOpen()
    * @param {string} IP
-   * @param {number} port
    * @param {string} password
-   * @returns {boolean} is connected
+   * @returns {boolean}
    */
-  static Telnet(IP, password) {
+  static Login(IP, password) {
     const server = servers.find((server) => server.IP === IP);
-    return server.password === password;
+    const isPassword = server.password === password;
+    if (isPassword) {
+      fs.set_host = server.host;
+    }
+    return isPassword;
   }
 
   // check IP port before asking password
-  static TelnetOpen(IP, port) {
+  static Telnet(IP, port) {
     const server = servers.find((server) => server.IP === IP);
     return server?.port === port;
   }
