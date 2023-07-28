@@ -53,8 +53,18 @@ export default class Apps {
     return server?.port === port;
   }
 
-  static John(IP) {
+  /**
+   * @param {string} IP 
+   * @param {number} port 
+   * @returns password if IP/port are correct, else undefined
+   */
+  static John(IP, port) {
     const server = servers.find((server) => server.IP === IP);
-    return server.password;
+    if (server) {
+      if (server.port === port) {
+        return server.password;
+      }
+    }
+    return undefined;
   }
 }
