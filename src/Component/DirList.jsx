@@ -1,24 +1,25 @@
-import { Component } from "react";
 import "./css/DirList.css";
+import propTypes from "prop-types";
 
-class DirList extends Component {
-  render() {
-    // example
-    const files = ["file1", "file2"];
-    const folders = ["folder1", "folder2"];
-    const file_jsx = folders.map((file, i) => <div key={i}>{file}</div>);
-    const folder_jsx = files.map((folder, i) => (
-      <div style={{ color: "yellow" }} key={i}>
-        {folder}
-      </div>
-    ));
-    return (
-      <div className="dir-list">
-        {folder_jsx}
-        {file_jsx}
-      </div>
-    );
-  }
+function DirList(props) {
+  const file_jsx = props.folders.map((file, i) => <div key={i}>{file}</div>);
+  const folder_jsx = props.files.map((folder, i) => (
+    <div style={{ color: "yellow" }} key={i}>
+      {folder}
+    </div>
+  ));
+
+  return (
+    <div className="dir-list">
+      {folder_jsx}
+      {file_jsx}
+    </div>
+  );
 }
+
+DirList.propTypes = {
+  files: propTypes.array,
+  folders: propTypes.object,
+};
 
 export default DirList;

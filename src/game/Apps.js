@@ -1,7 +1,7 @@
 import servers from "./servers.js";
 import Random from "./Random.js";
 export const appsUImeta = {
-  Ping: {
+  ping: {
     prompt: 'Ping>',
     message: "Enter IP...",
   },
