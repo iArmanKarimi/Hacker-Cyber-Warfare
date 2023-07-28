@@ -1,11 +1,6 @@
 import servers from "./servers.js";
 import Random from "./Random.js";
-export const appsUImeta = {
-  ping: {
-    prompt: 'Ping>',
-    message: "Enter IP...",
-  },
-}
+
 export default class Apps {
   /** host to IP
    * @param {string} host_name
@@ -49,5 +44,10 @@ export default class Apps {
   static TelnetOpen(IP, port) {
     const server = servers.find((server) => server.IP === IP);
     return server?.port === port;
+  }
+
+  static John(IP) {
+    const server = servers.find((server) => server.IP === IP);
+    return server.password;
   }
 }
