@@ -26,7 +26,7 @@ export default function bash(commandInput) {
                 const path = util.formatPromptPWD(fs.format_path());
                 return { path };
             } else {
-                return { output: "Cannot go up from root directory." }; // TODO
+                return { output: "Cannot go up from root directory." };
             }
         }
         case "del":
