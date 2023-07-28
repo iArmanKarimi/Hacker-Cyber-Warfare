@@ -2,14 +2,11 @@ import "./css/PromptLine.css";
 import { useState } from "react";
 import PropTypes from "prop-types";
 import bash from "./bash";
-import { appsUImeta } from "../game/Apps";
-import { appMessages } from "./run";
+import { appMessages, appNames } from "./run";
 
 function PromptLine({ clearOutput, appendOutput }) {
   const [promptInput, setPromptInput] = useState("");
   const [promptLabel, setPromptLabel] = useState("Login:");
-
-  // function login() {// ask username password (must server credentials)}
 
   function handleCommandEnter(e) {
     if (e.key === "Enter") {
@@ -18,14 +15,15 @@ function PromptLine({ clearOutput, appendOutput }) {
         const appName = promptInput
         const appMessage = appMessages[promptInput];
         setPromptLabel(`${appName.toUpperCase()}>`);
-        appendOutput(appMeta.message);
+        appendOutput(appMessage);
       }
       // run app
-      if (promptInput in apps) {
+      if (promptInput in appNames) {
         // TODO
       }
       else {
-        const result = bash(promptInput);
+        const command = promptInput
+        const result = bash(command);
         if (result.path) {
           setPromptLabel(result.path);
         }
