@@ -5,113 +5,124 @@ import bash from "./bash";
 import { appNames, run } from "./run";
 
 function PromptLine({ clearOutput, appendOutput }) {
-  const [username, setUsername] = useState('');
-  const [promptInput, setPromptInput] = useState("");
-  const [promptLabel, setPromptLabel] = useState("Login:");
-  const [askLoginUsernameStep, setLoginAskUsernameStep] = useState(true);
-  const [askLoginPasswordStep, setLoginAskPasswordStep] = useState(false);
-  const [initialLoginStep, setInitialLoginStep] = useState(true);
+	const [state, setState] = useState({
+		username: "",
+		promptInput: "",
+		promptLabel: "Login:",
+		askLoginUsernameStep: true,
+		askLoginPasswordStep: false,
+		initialLoginStep: true,
+	});
 
-  // TODO
-  // function handlePasswordInput() {}
-  // function handleAppInput() {}
-  // function handleCommandInput() {}
+	const {
+		username,
+		promptInput,
+		promptLabel,
+		askLoginUsernameStep,
+		askLoginPasswordStep,
+		initialLoginStep,
+	} = state;
 
-  function askLoginUsername() {
-    if (promptInput === 'root') {
-      appendOutput('Login: root')
-      setPromptLabel('Password:')
-      setLoginAskPasswordStep(true)
-      setLoginAskUsernameStep(false)
-    } else {
-      appendOutput('wrong username!')
-    }
-  }
+	function askLoginUsername() {
+		if (promptInput === "root") {
+			appendOutput(`Login: ${username}`);
+			setState((prevState) => ({
+				...prevState,
+				promptLabel: "Password:",
+				askLoginPasswordStep: true,
+				askLoginUsernameStep: false,
+			}));
+		} else {
+			appendOutput("wrong username!");
+		}
+	}
 
-  function initialLogin() {
-    setUsername(promptInput.trim())
-    setInitialLoginStep(false)
-  }
+	function initialLogin() {
+		setState((prevState) => ({
+			...prevState,
+			username: promptInput.trim(),
+			initialLoginStep: false,
+		}));
+	}
 
-  function askLoginPassword() {
-    setPromptInput('')
-    // TODO 
-    // if user runs john from menu, show them password
-    // if password is correct, update prompt label with path
-    if ('correct password') {
-      // ...
-      setLoginAskPasswordStep(false)
-    } else {
-      appendOutput("wrong password!")
-    }
-    return
-  }
+	function askLoginPassword() {
+		const result = run(promptInput);
+		if (result.output) appendOutput(result.output);
+		if (result.success)
+			setState((prevState) => ({
+				...prevState,
+				promptLabel: "/home/user",
+				askLoginPasswordStep: false,
+				askLoginUsernameStep: false,
+			}));
+	}
 
-  function processApp(app) {
-    const result = run(app)
-    if (result.output) {
-      appendOutput(result)
-    }
-    if (result.openedConnection) {
-      setPromptInput('')
-      setPromptLabel('Login:')
-      setLoginAskUsernameStep(true)
-      return
-    }
-  }
+	function processApp(app) {
+		const result = run(app);
+		if (result.output) appendOutput(result.output);
+		if (result.openedConnection)
+			setState((prevState) => ({
+				...prevState,
+				promptInput: "",
+				promptLabel: "Login:",
+				askLoginUsernameStep: true,
+			}));
+	}
 
-  function processCommand() {
-    const command = promptInput
-    const result = bash(command);
-    if (result.path) {
-      setPromptLabel(result.path);
-    }
-    if (result.clearOutput) {
-      clearOutput();
-    }
-    if (result.output) {
-      appendOutput(result.output);
-    }
-  }
+	function processCommand() {
+		const result = bash(promptInput);
+		if (result.path)
+			setState((prevState) => ({ ...prevState, promptLabel: result.path }));
+		if (result.clearOutput) clearOutput();
+		if (result.output) appendOutput(result.output);
+	}
 
-  function handleInputEnter(e) {
-    if (e.key !== "Enter") return
-    if (initialLoginStep) {
-      initialLogin()
-    }
-    if (askLoginUsernameStep) {
-      askLoginUsername()
-    }
-    if (askLoginPasswordStep) {
-      askLoginPassword()
-    }
-    if (promptInput in appNames) {
-      processApp(promptInput)
-    }
-    else {
-      processCommand()
-    }
-    setPromptInput("");
-  }
+	function handleInputEnter(e) {
+		if (e.key !== "Enter") return;
 
-  return (
-    <div id="prompt-line">
-      <span id="prompt-line-prompt">{promptLabel}</span>
-      <input
-        type="text"
-        id="prompt-line-input"
-        value={promptInput}
-        onChange={(e) => setPromptInput(e.target.value)}
-        onKeyDown={handleInputEnter}
-        autoFocus
-      />
-    </div>
-  );
+		const stepFunctions = {
+			[initialLoginStep]: initialLogin,
+			[askLoginUsernameStep]: askLoginUsername,
+			[askLoginPasswordStep]: askLoginPassword,
+			[promptInput in appNames]: () => processApp(promptInput),
+			default: processCommand,
+		};
+
+		const stepFunction =
+			stepFunctions[
+			initialLoginStep
+			|| askLoginUsernameStep
+			|| askLoginPasswordStep
+			|| promptInput in appNames]
+			|| stepFunctions.default;
+
+		stepFunction();
+		setState((prevState) => ({ ...prevState, promptInput: "" }));
+	}
+
+	return (
+		<div id="prompt-line-prompt">
+			<span id="prompt-line-prompt">{promptLabel}</span>
+			<input
+				type="text"
+				id="prompt-line-input"
+				value={promptInput}
+				onChange={(e) =>
+					setState((prevState) => ({
+						...prevState,
+						promptInput: e.target.value,
+					}))
+				}
+				onKeyDown={handleInputEnter}
+				autoFocus
+			/>
+		</div>
+	);
 }
 
 PromptLine.propTypes = {
-  clearOutput: PropTypes.func.isRequired,
-  appendOutput: PropTypes.func.isRequired,
+	clearOutput: PropTypes.func.isRequired,
+	appendOutput: PropTypes.func.isRequired,
 };
 
 export default PromptLine;
