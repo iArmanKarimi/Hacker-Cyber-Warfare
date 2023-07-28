@@ -8,8 +8,8 @@ function PromptLine({ clearOutput, appendOutput }) {
   const [username, setUsername] = useState('');
   const [promptInput, setPromptInput] = useState("");
   const [promptLabel, setPromptLabel] = useState("Login:");
-  const [askUsernameStep, setAskUsernameStep] = useState(true);
-  const [askPasswordStep, setAskPasswordStep] = useState(false);
+  const [askLoginUsernameStep, setLoginAskUsernameStep] = useState(true);
+  const [askLoginPasswordStep, setLoginAskPasswordStep] = useState(false);
   const [initialLoginStep, setInitialLoginStep] = useState(true);
 
   // TODO
@@ -17,19 +17,61 @@ function PromptLine({ clearOutput, appendOutput }) {
   // function handleAppInput() {}
   // function handleCommandInput() {}
 
-  function usernameInputStage() {
+  function askLoginUsername() {
     if (promptInput === 'root') {
       appendOutput('Login: root')
       setPromptLabel('Password:')
-      setAskPasswordStep(true)
-      setAskUsernameStep(false)
+      setLoginAskPasswordStep(true)
+      setLoginAskUsernameStep(false)
     } else {
       appendOutput('wrong username!')
     }
   }
 
   function initialLogin() {
+    setUsername(promptInput.trim())
+    setInitialLoginStep(false)
+  }
 
+  function askLoginPassword() {
+    setPromptInput('')
+    // TODO 
+    // if user runs john from menu, show them password
+    // if password is correct, update prompt label with path
+    if ('correct password') {
+      // ...
+      setLoginAskPasswordStep(false)
+    } else {
+      appendOutput("wrong password!")
+    }
+    return
+  }
+
+  function processApp(app) {
+    const result = run(app)
+    if (result.output) {
+      appendOutput(result)
+    }
+    if (result.openedConnection) {
+      setPromptInput('')
+      setPromptLabel('Login:')
+      setLoginAskUsernameStep(true)
+      return
+    }
+  }
+
+  function processCommand() {
+    const command = promptInput
+    const result = bash(command);
+    if (result.path) {
+      setPromptLabel(result.path);
+    }
+    if (result.clearOutput) {
+      clearOutput();
+    }
+    if (result.output) {
+      appendOutput(result.output);
+    }
   }
 
   function handleInputEnter(e) {
@@ -37,48 +79,17 @@ function PromptLine({ clearOutput, appendOutput }) {
     if (initialLoginStep) {
       initialLogin()
     }
-    if (askUsernameStep) {
-      usernameInputStage()
+    if (askLoginUsernameStep) {
+      askLoginUsername()
     }
-    if (askPasswordStep) {
-      setPromptInput('')
-      // TODO 
-      // if user runs john from menu, show them password
-      // if password is correct, update prompt label with path
-      if ('correct password') {
-        // ...
-        setAskPasswordStep(false)
-      } else {
-        appendOutput("wrong password!")
-      }
-      return
+    if (askLoginPasswordStep) {
+      askLoginPassword()
     }
-    // Apps
     if (promptInput in appNames) {
-      const app = promptInput
-      const result = run(app)
-      if (result.output) {
-        appendOutput(result)
-      }
-      if (result.openedConnection) {
-        setPromptInput('')
-        setPromptLabel('Login:')
-        setAskUsernameStep(true)
-        return
-      }
-    } // Commands
+      processApp(promptInput)
+    }
     else {
-      const command = promptInput
-      const result = bash(command);
-      if (result.path) {
-        setPromptLabel(result.path);
-      }
-      if (result.clearOutput) {
-        clearOutput();
-      }
-      if (result.output) {
-        appendOutput(result.output);
-      }
+      processCommand()
     }
     setPromptInput("");
   }
