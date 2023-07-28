@@ -26,16 +26,16 @@ export default function bash(commandInput) {
                 const path = util.formatPromptPWD(fs.format_path());
                 return { path };
             } else {
-                return { output: "" }; // TODO
+                return { output: "Cannot go up from root directory." }; // TODO
             }
         }
         case "del":
         case "rm": {
             const removed = fs.remove_file(arg);
             if (removed) {
-                return { output: `Successfully deleted '${arg}'` }; // TODO
+                return { output: `Successfully deleted '${arg}'` };
             } else {
-                return { output: `Cannot find file '${arg}'` }; // TODO
+                return { output: `Cannot find file '${arg}'` };
             }
         }
         case "cls":
