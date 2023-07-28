@@ -153,5 +153,13 @@ class FileSystem {
     }
     return false;
   }
+
+  static file_exists(file_name) {
+    const { files } = FileSystem.get_current_dir();
+    if (files) {
+      return files.some((_file_name) => _file_name === file_name);
+    }
+    return false;
+  }
 }
 export default FileSystem;
