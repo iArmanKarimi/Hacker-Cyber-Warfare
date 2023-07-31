@@ -14,4 +14,8 @@ function TerminalInterface(props) {
   );
 }
 
+TerminalInterface.propTypes = {
+  outputs: PropTypes.array
+}
+
 export default TerminalInterface;
