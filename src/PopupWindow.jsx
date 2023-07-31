@@ -1,4 +1,4 @@
-import './css/PopupWindow'
+import './css/PopupWindow.css'
 import { useState } from "react"
 
 function PopupWindow() {
