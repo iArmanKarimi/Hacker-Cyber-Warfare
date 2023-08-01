@@ -9,28 +9,28 @@ function PromptLine({ clearOutput, appendOutput }) {
 		username: "",
 		promptInput: "",
 		promptLabel: "Login:",
-		askLoginUsernameStep: true,
-		askLoginPasswordStep: false,
-		initialLoginStep: true,
+		isServerUsernameRequested: true,
+		isServerPasswordRequested: false,
+		isInitialLogin: true,
 	});
 
 	const {
 		username,
 		promptInput,
 		promptLabel,
-		askLoginUsernameStep,
-		askLoginPasswordStep,
-		initialLoginStep,
+		isServerUsernameRequested,
+		isServerPasswordRequested,
+		isInitialLogin,
 	} = state;
 
-	function askLoginUsername() {
+	function askServerUsername() {
 		if (promptInput === "root") {
 			appendOutput(`Login: ${username}`);
 			setState((prevState) => ({
 				...prevState,
 				promptLabel: "Password:",
-				askLoginPasswordStep: true,
-				askLoginUsernameStep: false,
+				isServerPasswordRequested: true,
+				isServerUsernameRequested: false,
 			}));
 		} else {
 			appendOutput("wrong username!");
@@ -41,19 +41,19 @@ function PromptLine({ clearOutput, appendOutput }) {
 		setState((prevState) => ({
 			...prevState,
 			username: promptInput.trim(),
-			initialLoginStep: false,
+			isInitialLogin: false,
 		}));
 	}
 
-	function askLoginPassword() {
+	function askServerPassword() {
 		const result = run(promptInput);
 		if (result.output) appendOutput(result.output);
 		if (result.success)
 			setState((prevState) => ({
 				...prevState,
 				promptLabel: "/home/user",
-				askLoginPasswordStep: false,
-				askLoginUsernameStep: false,
+				isServerUsernameRequested: false,
+				isServerPasswordRequested: false,
 			}));
 	}
 
@@ -65,7 +65,7 @@ function PromptLine({ clearOutput, appendOutput }) {
 				...prevState,
 				promptInput: "",
 				promptLabel: "Login:",
-				askLoginUsernameStep: true,
+				isServerUsernameRequested: true,
 			}));
 	}
 
@@ -81,18 +81,18 @@ function PromptLine({ clearOutput, appendOutput }) {
 		if (e.key !== "Enter") return;
 
 		const stepFunctions = {
-			[initialLoginStep]: initialLogin,
-			[askLoginUsernameStep]: askLoginUsername,
-			[askLoginPasswordStep]: askLoginPassword,
+			[isInitialLogin]: initialLogin,
+			[isServerUsernameRequested]: askServerUsername,
+			[isServerPasswordRequested]: askServerPassword,
 			[promptInput in appNames]: () => processApp(promptInput),
 			default: processCommand,
 		};
 
 		const stepFunction =
 			stepFunctions[
-			initialLoginStep
-			|| askLoginUsernameStep
-			|| askLoginPasswordStep
+			isInitialLogin
+			|| isServerUsernameRequested
+			|| isServerPasswordRequested
 			|| promptInput in appNames]
 			|| stepFunctions.default;
 
