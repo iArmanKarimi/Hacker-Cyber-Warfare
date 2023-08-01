@@ -1,0 +1,7 @@
+#interface {
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+  height: 417px;
+  padding: 5px;
+}

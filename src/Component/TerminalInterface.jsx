@@ -1,10 +1,11 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
+import "./css/TerminalInterface.css"
 
 function TerminalInterface(props) {
   return (
     <>
-      <div>
+      <div id="terminal-output">
         {props.outputs.map((output, index) => (
           <div key={index}>{output}</div>
         ))}
