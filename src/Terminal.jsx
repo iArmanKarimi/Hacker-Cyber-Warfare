@@ -1,22 +1,33 @@
 import "./css/Terminal.css";
-import { Component } from "react";
+import { useState } from "react";
+import PopupWindow from "./PopupWindow";
 import PromptLine from "./Component/PromptLine";
-import TerminalOutput from "./Component/TerminalOutput";
+import TerminalInterface from "./Component/TerminalInterface";
 import ConnectionStatusBar from "./Component/ConnectionStatusBar";
 
-export default class Terminal extends Component {
-  render() {
-    return (
-      <>
-        <div id="console-header">Konsole v1.0</div>
-        <div id="console">
-          <ConnectionStatusBar />
-          <div id="interface">
-            <TerminalOutput />
-            <PromptLine />
-          </div>
+function Terminal() {
+  const [outputs, setOutputs] = useState(["Please enter your nick/alias..."]);
+
+  const clearOutput = () => setOutputs([]);
+  const appendOutput = (newOutput) =>
+    setOutputs((prevOutputs) => [...prevOutputs, newOutput]);
+
+  const promptInputFocus = () =>
+    document.getElementById('prompt-line-input').focus()
+
+  return (
+    <>
+      <div id="console-header">Konsole v1.0</div>
+      <div id="console">
+        <ConnectionStatusBar />
+        <div id="interface" onClick={promptInputFocus}>
+          <PopupWindow />
+          <TerminalInterface outputs={outputs} />
+          <PromptLine clearOutput={clearOutput} appendOutput={appendOutput} />
         </div>
-      </>
-    );
-  }
+      </div>
+    </>
+  );
 }
+
+export default Terminal;
