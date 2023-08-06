@@ -1,6 +1,6 @@
-import { parseCommandMultiArg } from '../game/util'
-import Apps from '../game/Apps'
-import fs from '../game/fs'
+import { parseCommandMultiArg } from '../../game/util'
+import Apps from '../../game/Apps'
+import fs from '../../game/fs'
 
 export const appNames = ['ping', 'dns', 'nmap', 'telnet', "vck", "john"];
 

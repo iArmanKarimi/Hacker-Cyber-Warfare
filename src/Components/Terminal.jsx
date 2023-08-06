@@ -1,9 +1,9 @@
 import "./css/Terminal.css";
 import { useState } from "react";
 import PopupWindow from "./PopupWindow";
-import PromptLine from "./Component/PromptLine";
-import TerminalInterface from "./Component/TerminalInterface";
-import ConnectionStatusBar from "./Component/ConnectionStatusBar";
+import PromptLine from "../features/PromptLine/PromptLine";
+import TerminalInterface from "../features/TerminalInterface/TerminalInterface";
+import ConnectionStatusBar from "./ConnectionStatusBar";
 
 function Terminal() {
   const [outputs, setOutputs] = useState(["Please enter your nick/alias..."]);

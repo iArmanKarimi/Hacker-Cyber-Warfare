@@ -1,6 +1,6 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import "./css/TerminalInterface.css"
+import "./TerminalInterface.css"
 
 function TerminalInterface(props) {
   return (

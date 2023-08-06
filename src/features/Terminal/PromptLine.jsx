@@ -1,7 +1,6 @@
-import "./css/PromptLine.css";
+import "./PromptLine.css";
 import { useState } from "react";
 import PropTypes from "prop-types";
-import bash from "./bash";
 import { appNames, run } from "./run";
 
 function PromptLine({ clearOutput, appendOutput }) {

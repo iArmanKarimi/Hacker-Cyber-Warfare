@@ -1,6 +1,6 @@
-import "./css/App.css";
-import GUI from "./GUI";
-import Terminal from "./Terminal";
+import "./App.css";
+import GUI from "./Components/GUI";
+import Terminal from "./Components/Terminal";
 
 const App = () => (
   <>
