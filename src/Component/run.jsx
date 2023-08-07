@@ -1,10 +1,11 @@
 import { parseCommandMultiArg } from '../game/util'
 import Apps from '../game/Apps'
 import fs from '../game/fs'
+import { app as messages } from './util/terminalMessages'
 
 export const appNames = ['ping', 'dns', 'nmap', 'telnet', "vck", "john"];
 
-let pingResult = false; // for game staging (player must ping first)
+let pingResult = false; // server status
 
 /**
  * @param {string} commandArgs 
@@ -32,12 +33,12 @@ export function run(commandArgs) {
 				if (validIP) {
 					if (status) {
 						const randomResponseTime = Math.floor(Math.random() * (800 - 8 + 1)) + 8
-						return { output: `Reply from 1.1.1.1: bytes=32 time=${randomResponseTime}ms` }
+						return { output: messages.ping.reply.call(randomResponseTime) }
 					} else {
-						return { output: <p style={{ color: 'darkred' }}>host unreachable</p> }
+						return { output: messages.ping.unreachable }
 					}
 				} else {
-					return { output: `Ping request could not find IP '${IP}'` }
+					return { output: messages.ping.wrongIP.call(IP) }
 				}
 			}
 
@@ -45,17 +46,17 @@ export function run(commandArgs) {
 			{
 				const hostname = args[0]
 				const IP = Apps.DNS(hostname)
-				return { output: `IP address of ${hostname}: ${IP}` }
+				return { output: messages.dns.info(hostname, IP) }
 			}
 
 		case 'nmap':
 			{
-				if (!pingResult) return `Unknown server status`
+				if (!pingResult) return messages.nmap.unkownServerStatus
 				const IP = args[0]
 				const result = Apps.Nmap(IP);
-				if (!result) return "Unknown host name"
+				if (!result) return messages.nmap.unkownHostName
 				const { port, port_name } = result
-				return { output: `${port_name} port is open. port number: ${port}` }
+				return { output: messages.nmap.info(port, port_name) }
 			}
 
 		case 'telnet':
@@ -66,7 +67,7 @@ export function run(commandArgs) {
 				if (connected) {
 					return { openedConnection: true }
 				} else {
-					return { output: 'cannot open connection. wrong ip address or port number' }
+					return { output: messages.telnet.wrongIPorPort }
 				}
 			}
 
@@ -75,8 +76,8 @@ export function run(commandArgs) {
 				const file_name = args[0]
 				return {
 					output: fs.file_exists(file_name)
-						? `Copied ${file_name}`
-						: `${file_name} doesn't exist`
+						? messages.copy.copied
+						: messages.copy.nonExistentFile
 				}
 			}
 
@@ -86,8 +87,8 @@ export function run(commandArgs) {
 			const password = Apps.John(IP, Number(port))
 			return {
 				output: password
-					? `Found password: ${password}`
-					: 'Wrong ip address or port number'
+					? messages.john.info(password)
+					: messages.john.wrongIPorPort
 			}
 		}
 	}
