@@ -46,7 +46,7 @@ export default function bash(commandInput) {
 		case "rm": {
 			const removed = fs.remove_file(arg);
 			if (removed) {
-				return { output: messages.info.del.call(arg) };
+				return { output: messages.info.del(arg) };
 			} else {
 				return { output: messages.errors.del };
 			}
@@ -64,7 +64,7 @@ export default function bash(commandInput) {
 		}
 		default: {
 			return {
-				output: messages.errors.unrecognized.call(command),
+				output: messages.errors.unrecognized(command),
 			};
 		}
 	}

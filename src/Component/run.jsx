@@ -33,12 +33,12 @@ export function run(commandArgs) {
 				if (validIP) {
 					if (status) {
 						const randomResponseTime = Math.floor(Math.random() * (800 - 8 + 1)) + 8
-						return { output: messages.ping.reply.call(randomResponseTime) }
+						return { output: messages.ping.reply(randomResponseTime) }
 					} else {
 						return { output: messages.ping.unreachable }
 					}
 				} else {
-					return { output: messages.ping.wrongIP.call(IP) }
+					return { output: messages.ping.wrongIP(IP) }
 				}
 			}
 
