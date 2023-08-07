@@ -3,6 +3,7 @@ import DirList from "./DirList";
 import * as util from "../game/util";
 import { appNames } from "./run";
 import { TerminalAppHelp, TerminalCmdHelp } from "./TerminalHelp";
+import { bash as messages } from "./util/terminalMessages";
 
 /**
 	* parse and invoke commands + args
@@ -29,7 +30,7 @@ export default function bash(commandInput) {
 				const path = util.formatPromptPWD(fs.format_path());
 				return { path };
 			} else {
-				return { output: "System cannot find the path specified because it does not exist." };
+				return { output: messages.errors.cd };
 			}
 		}
 		case "cd..": {
@@ -38,16 +39,16 @@ export default function bash(commandInput) {
 				const path = util.formatPromptPWD(fs.format_path());
 				return { path };
 			} else {
-				return { output: "Cannot go up from root directory." };
+				return { output: messages.errors.cdUp };
 			}
 		}
 		case "del":
 		case "rm": {
 			const removed = fs.remove_file(arg);
 			if (removed) {
-				return { output: `Successfully deleted '${arg}'` };
+				return { output: messages.info.del.call(arg) };
 			} else {
-				return { output: `Cannot find file '${arg}'` };
+				return { output: messages.errors.del };
 			}
 		}
 		case "cls":
@@ -63,7 +64,7 @@ export default function bash(commandInput) {
 		}
 		default: {
 			return {
-				output: `'${command}' is not recognized as a command or program.`,
+				output: messages.errors.unrecognized.call(command),
 			};
 		}
 	}
